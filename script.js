@@ -6,38 +6,38 @@ uploader.addEventListener('change', (e) => {
     files.forEach(file => {
         const url = URL.createObjectURL(file);
         const type = file.type.startsWith('video') ? 'video' : 'img';
-        createArchiveItem(url, type);
+        addWork(url, type);
     });
 });
 
-function createArchiveItem(url, type) {
-    const item = document.createElement('article');
-    item.className = 'work-item';
-    item.innerHTML = `
-        <span style="position:absolute;top:15px;right:15px;cursor:pointer;color:#c5a363;font-size:10px;z-index:10;opacity:0.6;" onclick="this.parentElement.remove()">[ DELETE ]</span>
-        <div class="media-frame">
+function addWork(url, type) {
+    const el = document.createElement('div');
+    el.className = 'work-card';
+    el.innerHTML = `
+        <span style="position:absolute;top:20px;right:20px;cursor:pointer;color:#c5a363;font-size:11px;z-index:5;" onclick="this.parentElement.remove()">[ REMOVE ]</span>
+        <div class="frame">
             ${type === 'video' ? `<video src="${url}" autoplay muted loop playsinline></video>` : `<img src="${url}">`}
         </div>
         <div style="margin-top:20px;text-align:center;">
-            <h3 contenteditable="true" spellcheck="false" style="font-family:'Cormorant Garamond';font-weight:300;color:#c5a363;font-style:italic;font-size:1.3rem;">Enter Project Title</h3>
+            <h3 contenteditable="true" style="font-family:'Cormorant Garamond';font-weight:300;color:#c5a363;font-style:italic;font-size:1.5rem;opacity:0.8;">Enter Project Title</h3>
         </div>
     `;
-    grid.appendChild(item);
+    grid.appendChild(el);
 }
 
 function savePortfolio() {
-    localStorage.setItem('ryu_final_v5', grid.innerHTML);
-    alert('PORTFOLIO ARCHIVE SAVED.');
+    localStorage.setItem('ryu_vfx_final_final', grid.innerHTML);
+    alert('ARCHIVE SECURED.');
 }
 
 function clearPortfolio() {
-    if(confirm('ERASE ALL DATA?')) {
+    if(confirm('ERASE EVERYTHING?')) {
         grid.innerHTML = '';
-        localStorage.removeItem('ryu_final_v5');
+        localStorage.removeItem('ryu_vfx_final_final');
     }
 }
 
 window.onload = () => {
-    const saved = localStorage.getItem('ryu_final_v5');
+    const saved = localStorage.getItem('ryu_vfx_final_final');
     if(saved) grid.innerHTML = saved;
 };
