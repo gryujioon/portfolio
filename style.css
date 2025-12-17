@@ -1,65 +1,79 @@
 :root {
-    --deep-bg: #05060b;
-    --gold: #c5a363;
-    --text-pure: #ffffff;
-    --text-mute: rgba(255, 255, 255, 0.4);
-    --font-serif: 'Cormorant Garamond', serif;
-    --font-sans: 'Montserrat', sans-serif;
+    --bg-black: #05060b;
+    --gold-accent: #c5a363;
+    --white: #ffffff;
+    --dim-white: rgba(255, 255, 255, 0.4);
+    --serif: 'Cormorant Garamond', serif;
+    --sans: 'Montserrat', sans-serif;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
 body { 
-    background-color: var(--deep-bg); 
-    min-height: 100vh; color: var(--text-pure); 
-    font-family: var(--font-sans);
+    background-color: var(--bg-black); 
+    color: var(--white); 
+    font-family: var(--sans);
     overflow-x: hidden;
-    position: relative;
 }
 
-/* 움직이는 고급 메쉬 그라데이션 배경 */
-body::before {
-    content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: radial-gradient(circle at 15% 15%, #0d152a 0%, transparent 45%),
-                radial-gradient(circle at 85% 85%, #161b33 0%, transparent 45%),
+/* 럭셔리 메쉬 그라데이션 애니메이션 */
+.luxury-bg {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    background: radial-gradient(circle at 10% 20%, #0d152a 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, #1a1f35 0%, transparent 40%),
                 radial-gradient(circle at 50% 50%, #05060b 0%, transparent 100%);
-    z-index: -1; animation: aurora 12s infinite alternate ease-in-out;
+    z-index: -1;
+    animation: meshMove 20s infinite alternate ease-in-out;
 }
 
-@keyframes aurora {
-    0% { transform: scale(1); opacity: 0.7; }
-    100% { transform: scale(1.1); opacity: 1; }
+@keyframes meshMove {
+    0% { transform: scale(1) rotate(0deg); opacity: 0.8; }
+    50% { transform: scale(1.1) rotate(2deg); opacity: 1; }
+    100% { transform: scale(1) rotate(-1deg); opacity: 0.9; }
 }
 
-.app-wrapper { padding: 50px 60px; position: relative; z-index: 1; }
+.app-wrapper { padding: 60px 80px; }
 
-.luxury-header {
+/* 헤더 디자인 */
+.main-header {
     display: flex; justify-content: space-between; align-items: flex-end;
-    margin-bottom: 80px; border-bottom: 1px solid rgba(255,255,255,0.08);
-    padding-bottom: 30px;
+    margin-bottom: 100px; border-bottom: 1px solid rgba(255,255,255,0.08);
+    padding-bottom: 40px;
 }
 
-.brand-box h1 { font-family: var(--font-serif); font-size: 3.2rem; font-weight: 300; letter-spacing: 5px; text-transform: uppercase; }
-.branding { font-size: 0.7rem; letter-spacing: 5px; color: var(--gold); margin-top: 10px; }
+.brand-area h1 { 
+    font-family: var(--serif); font-size: 3.5rem; font-weight: 300; 
+    letter-spacing: 8px; text-transform: uppercase;
+    text-shadow: 0 5px 15px rgba(0,0,0,0.8);
+}
+.tagline { font-size: 0.75rem; letter-spacing: 6px; color: var(--gold-accent); margin-top: 15px; }
 
-.top-mail-link { font-size: 0.75rem; color: var(--gold); text-decoration: none; margin-right: 25px; transition: 0.3s; }
-.top-mail-link:hover { color: var(--text-pure); }
+.top-mail { 
+    font-size: 0.8rem; color: var(--gold-accent); text-decoration: none; 
+    margin-right: 30px; letter-spacing: 1px; transition: 0.3s;
+}
+.top-mail:hover { color: var(--white); }
 
-.btn-lux-ui {
+.btn-lux {
     background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
-    color: var(--text-pure); padding: 10px 22px; font-size: 0.65rem;
-    letter-spacing: 2px; cursor: pointer; transition: 0.4s; margin-left: 10px;
+    color: var(--white); padding: 12px 24px; font-size: 0.7rem;
+    letter-spacing: 2px; cursor: pointer; transition: 0.4s; margin-left: 12px;
 }
-.btn-lux-ui.primary { border-color: var(--gold); color: var(--gold); }
-.btn-lux-ui:hover { background: var(--text-pure); color: #000; }
+.btn-lux.primary { border-color: var(--gold-accent); color: var(--gold-accent); }
+.btn-lux:hover { background: var(--white); color: #000; border-color: var(--white); }
 
-.vfx-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); gap: 45px; }
-.work-item { position: relative; }
-.media-frame { width: 100%; aspect-ratio: 16/10; background: #000; overflow: hidden; border: 1px solid rgba(255,255,255,0.04); }
-.media-frame img, .media-frame video { width: 100%; height: 100%; object-fit: cover; opacity: 0.65; transition: 1.2s cubic-bezier(0.2, 1, 0.3, 1); }
-.work-item:hover img, .work-item:hover video { opacity: 1; transform: scale(1.05); }
+/* 아카이브 그리드 */
+.vfx-masonry { display: grid; grid-template-columns: repeat(auto-fill, minmax(450px, 1fr)); gap: 60px; }
+.work-card { position: relative; }
+.frame { width: 100%; aspect-ratio: 16/9; background: #000; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); }
+.frame img, .frame video { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; transition: 1.5s; }
+.work-card:hover .frame img, .work-card:hover .frame video { opacity: 1; transform: scale(1.08); }
 
-.contact-section { margin-top: 150px; margin-bottom: 60px; text-align: center; }
-.contact-label { display: block; font-size: 0.6rem; letter-spacing: 5px; color: var(--gold); margin-bottom: 20px; }
-.signature-mail { font-family: var(--font-serif); font-size: 2.3rem; font-weight: 300; color: var(--text-pure); text-decoration: none; font-style: italic; transition: 0.5s; }
-.signature-mail:hover { letter-spacing: 2px; color: var(--gold); }
-.copyright { font-size: 0.55rem; letter-spacing: 2px; color: var(--text-mute); text-align: center; }
+/* 하단 시그니처 */
+.contact-wrap { margin-top: 180px; margin-bottom: 80px; text-align: center; }
+.label { display: block; font-size: 0.65rem; letter-spacing: 8px; color: var(--gold-accent); margin-bottom: 25px; }
+.main-mail {
+    font-family: var(--serif); font-size: 2.8rem; font-weight: 300;
+    color: var(--white); text-decoration: none; font-style: italic; transition: 0.6s;
+}
+.main-mail:hover { color: var(--gold-accent); letter-spacing: 3px; }
+.copy { font-size: 0.6rem; color: var(--dim-white); letter-spacing: 3px; text-align: center; }
