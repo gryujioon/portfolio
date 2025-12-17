@@ -3,28 +3,38 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ryu Jiyoon | Interactive Portfolio</title>
+  <title>RYU JIYOON | Cinematic Archivist</title>
   <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;1,300&family=Montserrat:wght@100;300;400&display=swap" rel="stylesheet">
 </head>
 <body>
-  <header class="hero">
-    <div class="hero-inner">
-      <h1 contenteditable="true" id="user-name">Ryu Jiyoon</h1>
-      <p contenteditable="true" id="user-sub">VFX · Motion Design · Visual Experiments</p>
-      <div class="admin-controls">
-        <button onclick="addProject()" class="btn-add">+ 프로젝트 추가</button>
-        <button onclick="saveData()" class="btn-save">변경사항 저장</button>
-      </div>
-    </div>
-  </header>
+  <div class="bg-gradient-overlay"></div>
 
-  <main class="works" id="works-container">
+  <div class="luxury-frame">
+    <header class="main-header">
+      <div class="logo-area">
+        <h1 contenteditable="true" spellcheck="false">RYU JIYOON</h1>
+        <p class="subtitle" contenteditable="true" spellcheck="false">VFX ARTIST · VISUAL DIRECTOR</p>
+      </div>
+      
+      <div class="action-bar">
+        <input type="file" id="bulk-uploader" multiple accept="image/*,video/*" hidden>
+        <button class="btn-lux" onclick="document.getElementById('bulk-uploader').click()">UPLOAD COLLECTION</button>
+        <button class="btn-lux gold" onclick="savePortfolio()">SAVE GALLERY</button>
+        <button class="btn-lux reset" onclick="clearPortfolio()">RESET</button>
+      </div>
+    </header>
+
+    <main class="viewport">
+      <div id="gallery-grid" class="masonry-grid">
+        <!-- Gallery items will be injected here -->
+      </div>
     </main>
 
-  <footer class="footer">
-    <p>© 2025 <span contenteditable="true">Ryu Jiyoon</span></p>
-  </footer>
+    <footer class="minimal-footer">
+      <p>CURATED BY RYU JIYOON © 2025</p>
+    </footer>
+  </div>
 
   <script src="script.js"></script>
 </body>
