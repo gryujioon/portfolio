@@ -8,33 +8,35 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Montserrat:wght@100;200;400&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div class="luxury-bg"></div>
+
     <div class="app-wrapper">
-        <header class="luxury-header">
-            <div class="brand-box">
+        <header class="main-header">
+            <div class="brand-area">
                 <h1 contenteditable="true" spellcheck="false">RYU JIYOON</h1>
-                <p class="branding" contenteditable="true" spellcheck="false">CINEMATIC VFX & DIRECTION</p>
+                <p class="tagline" contenteditable="true" spellcheck="false">CINEMATIC VFX & DIRECTION</p>
             </div>
             
-            <nav class="admin-nav">
-                <a href="mailto:gryu98794@gmail.com" class="top-mail-link">gryu98794@gmail.com</a>
+            <nav class="nav-controls">
+                <a href="mailto:gryu98794@gmail.com" class="top-mail">gryu98794@gmail.com</a>
                 <input type="file" id="bulk-uploader" multiple accept="image/*,video/*" hidden>
-                <button class="btn-lux-ui primary" onclick="document.getElementById('bulk-uploader').click()">+ ADD WORKS</button>
-                <button class="btn-lux-ui" onclick="savePortfolio()">SAVE</button>
-                <button class="btn-lux-ui danger" onclick="clearPortfolio()">RESET</button>
+                <button class="btn-lux primary" onclick="document.getElementById('bulk-uploader').click()">+ ADD WORKS</button>
+                <button class="btn-lux" onclick="savePortfolio()">SAVE</button>
+                <button class="btn-lux danger" onclick="clearPortfolio()">RESET</button>
             </nav>
         </header>
 
-        <main class="gallery-viewport">
-            <div id="gallery-grid" class="vfx-grid">
+        <main class="gallery-container">
+            <div id="gallery-grid" class="vfx-masonry">
                 </div>
         </main>
 
-        <footer class="footer-minimal">
-            <div class="contact-section">
-                <span class="contact-label">INQUIRIES</span>
-                <a href="mailto:gryu98794@gmail.com" class="signature-mail">gryu98794@gmail.com</a>
+        <footer class="final-footer">
+            <div class="contact-wrap">
+                <span class="label">INQUIRIES</span>
+                <a href="mailto:gryu98794@gmail.com" class="main-mail">gryu98794@gmail.com</a>
             </div>
-            <p class="copyright">© 2025 RYU JIYOON. ALL RIGHTS RESERVED.</p>
+            <p class="copy">© 2025 RYU JIYOON. ALL RIGHTS RESERVED.</p>
         </footer>
     </div>
 
