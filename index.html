@@ -1,41 +1,45 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RYU JIYOON | Cinematic Archivist</title>
-  <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;1,300&family=Montserrat:wght@100;300;400&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RYU JIYOON | VISUAL ARCHIVE</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Montserrat:wght@100;200;400&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="bg-gradient-overlay"></div>
+    <div class="bg-mesh"></div>
 
-  <div class="luxury-frame">
-    <header class="main-header">
-      <div class="logo-area">
-        <h1 contenteditable="true" spellcheck="false">RYU JIYOON</h1>
-        <p class="subtitle" contenteditable="true" spellcheck="false">VFX ARTIST · VISUAL DIRECTOR</p>
-      </div>
-      
-      <div class="action-bar">
-        <input type="file" id="bulk-uploader" multiple accept="image/*,video/*" hidden>
-        <button class="btn-lux" onclick="document.getElementById('bulk-uploader').click()">UPLOAD COLLECTION</button>
-        <button class="btn-lux gold" onclick="savePortfolio()">SAVE GALLERY</button>
-        <button class="btn-lux reset" onclick="clearPortfolio()">RESET</button>
-      </div>
-    </header>
+    <div class="app-wrapper">
+        <header class="luxury-header">
+            <div class="brand-box">
+                <h1 contenteditable="true" spellcheck="false">RYU JIYOON</h1>
+                <p class="branding" contenteditable="true" spellcheck="false">CINEMATIC VFX & DIRECTION</p>
+            </div>
+            
+            <nav class="admin-nav">
+                <a href="mailto:gryu98794@gmail.com" class="top-mail-link">gryu98794@gmail.com</a>
+                <input type="file" id="bulk-uploader" multiple accept="image/*,video/*" hidden>
+                <button class="btn-lux-ui primary" onclick="document.getElementById('bulk-uploader').click()">+ ADD WORKS</button>
+                <button class="btn-lux-ui" onclick="savePortfolio()">SAVE</button>
+                <button class="btn-lux-ui danger" onclick="clearPortfolio()">RESET</button>
+            </nav>
+        </header>
 
-    <main class="viewport">
-      <div id="gallery-grid" class="masonry-grid">
-        <!-- Gallery items will be injected here -->
-      </div>
-    </main>
+        <main class="gallery-viewport">
+            <div id="gallery-grid" class="vfx-grid">
+                </div>
+        </main>
 
-    <footer class="minimal-footer">
-      <p>CURATED BY RYU JIYOON © 2025</p>
-    </footer>
-  </div>
+        <footer class="footer-minimal">
+            <div class="contact-section">
+                <span class="contact-label">INQUIRIES</span>
+                <a href="mailto:gryu98794@gmail.com" class="signature-mail">gryu98794@gmail.com</a>
+            </div>
+            <p class="copyright">© 2025 RYU JIYOON. ALL RIGHTS RESERVED.</p>
+        </footer>
+    </div>
 
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
