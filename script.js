@@ -14,30 +14,30 @@ function createArchiveItem(url, type) {
     const item = document.createElement('article');
     item.className = 'work-item';
     item.innerHTML = `
-        <span style="position:absolute;top:10px;right:10px;cursor:pointer;color:#c5a363;font-size:10px;z-index:10;" onclick="this.parentElement.remove()">[ DELETE ]</span>
+        <span style="position:absolute;top:15px;right:15px;cursor:pointer;color:#c5a363;font-size:10px;z-index:10;opacity:0.6;" onclick="this.parentElement.remove()">[ DELETE ]</span>
         <div class="media-frame">
             ${type === 'video' ? `<video src="${url}" autoplay muted loop playsinline></video>` : `<img src="${url}">`}
         </div>
-        <div style="margin-top:15px;text-align:center;">
-            <h3 contenteditable="true" style="font-family:'Cormorant Garamond';font-weight:300;color:#c5a363;font-style:italic;">Enter Title</h3>
+        <div style="margin-top:20px;text-align:center;">
+            <h3 contenteditable="true" spellcheck="false" style="font-family:'Cormorant Garamond';font-weight:300;color:#c5a363;font-style:italic;font-size:1.3rem;">Enter Project Title</h3>
         </div>
     `;
     grid.appendChild(item);
 }
 
 function savePortfolio() {
-    localStorage.setItem('ryu_final_archive_v4', grid.innerHTML);
-    alert('YOUR ARCHIVE HAS BEEN SAVED.');
+    localStorage.setItem('ryu_final_v5', grid.innerHTML);
+    alert('PORTFOLIO ARCHIVE SAVED.');
 }
 
 function clearPortfolio() {
-    if(confirm('ERASE ALL?')) {
+    if(confirm('ERASE ALL DATA?')) {
         grid.innerHTML = '';
-        localStorage.removeItem('ryu_final_archive_v4');
+        localStorage.removeItem('ryu_final_v5');
     }
 }
 
 window.onload = () => {
-    const saved = localStorage.getItem('ryu_final_archive_v4');
+    const saved = localStorage.getItem('ryu_final_v5');
     if(saved) grid.innerHTML = saved;
 };
