@@ -8,7 +8,7 @@
     <style>
         :root { --bg: #05060b; --gold: #c5a363; --white: #ffffff; --serif: 'Cormorant Garamond', serif; }
         * { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
-        body { background-color: var(--bg); color: var(--white); font-family: 'Montserrat', sans-serif; overflow-x: hidden; min-height: 100vh; }
+        body { background-color: var(--bg); color: var(--white); font-family: 'Montserrat', sans-serif; overflow-x: hidden; min-height: 100vh; position: relative; }
 
         /* 고급 애니메이션 배경 */
         .bg-layer {
@@ -17,7 +17,7 @@
                         radial-gradient(circle at 85% 85%, #1a1f35 0%, transparent 50%);
             z-index: -1; animation: aurora 12s infinite alternate ease-in-out;
         }
-        @keyframes aurora { 0% { opacity: 0.6; } 100% { opacity: 1; transform: scale(1.1); } }
+        @keyframes aurora { 0% { opacity: 0.6; transform: scale(1); } 100% { opacity: 1; transform: scale(1.1); } }
 
         .container { padding: 60px 80px; position: relative; z-index: 1; }
         header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 80px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 30px; }
@@ -25,17 +25,18 @@
         .tagline { font-size: 0.7rem; letter-spacing: 5px; color: var(--gold); margin-top: 10px; }
         
         .nav-links { display: flex; align-items: center; gap: 20px; }
-        .nav-links a { font-size: 0.8rem; color: var(--gold); text-decoration: none; border-bottom: 1px solid transparent; transition: 0.3s; }
-        .nav-links a:hover { border-bottom: 1px solid var(--gold); }
+        .nav-links a { font-size: 0.8rem; color: var(--gold); text-decoration: none; transition: 0.3s; }
+        .nav-links a:hover { color: white; }
         .btn { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white; padding: 10px 20px; font-size: 0.65rem; cursor: pointer; transition: 0.4s; }
         .btn-gold { border-color: var(--gold); color: var(--gold); }
         .btn:hover { background: white; color: black; }
 
-        /* 그리드 디자인 - 첫번째 캡처 문제 해결 */
+        /* 갤러리 그리드 */
         #gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 50px; }
-        .item { position: relative; background: rgba(255,255,255,0.02); transition: 0.4s; padding: 10px; border: 1px solid transparent; }
+        .item { position: relative; background: rgba(255,255,255,0.02); padding: 10px; border: 1px solid transparent; transition: 0.4s; }
         .item:hover { border-color: var(--gold); }
         
+        /* 이미지 원본 비율 유지 및 꽉 채움 */
         .thumb { width: 100%; aspect-ratio: 16/9; background: #000; overflow: hidden; cursor: zoom-in; position: relative; }
         .thumb img, .thumb video { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: 0.8s; }
         .item:hover img, .item:hover video { opacity: 1; transform: scale(1.05); }
@@ -43,12 +44,13 @@
         .item-title { margin-top: 15px; text-align: center; }
         .item-title h3 { font-family: var(--serif); color: var(--gold); font-weight: 300; font-size: 1.4rem; font-style: italic; }
         
-        .del-btn { position: absolute; top: 15px; right: 15px; color: #ff6b6b; font-size: 10px; cursor: pointer; z-index: 10; opacity: 0; transition: 0.3s; background: rgba(0,0,0,0.6); padding: 5px 8px; }
+        .del-btn { position: absolute; top: 15px; right: 15px; color: #ff6b6b; font-size: 10px; cursor: pointer; z-index: 10; opacity: 0; background: rgba(0,0,0,0.6); padding: 5px 8px; transition: 0.3s; }
         .item:hover .del-btn { opacity: 1; }
 
-        /* 원본 보기 모달 - 두번째 요청 해결 */
+        /* 전체화면 모달 */
         #modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 9999; justify-content: center; align-items: center; cursor: zoom-out; }
-        #modal-content { max-width: 95%; max-height: 95%; object-fit: contain; box-shadow: 0 0 50px rgba(0,0,0,1); border: 1px solid rgba(255,255,255,0.1); }
+        #modal-container { width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; }
+        #modal-content { max-width: 95%; max-height: 95%; object-fit: contain; box-shadow: 0 0 50px #000; }
 
         footer { margin-top: 150px; text-align: center; padding-bottom: 60px; }
         .footer-mail { font-family: var(--serif); font-size: 2.5rem; color: white; text-decoration: none; font-style: italic; transition: 0.5s; }
@@ -67,7 +69,7 @@
                 <a href="mailto:gryu98794@gmail.com">gryu98794@gmail.com</a>
                 <input type="file" id="up-input" multiple hidden accept="image/*,video/*">
                 <button class="btn btn-gold" onclick="document.getElementById('up-input').click()">+ ADD WORKS</button>
-                <button class="btn" onclick="saveArchive()">SAVE ALL</button>
+                <button class="btn" onclick="alert('변경사항이 실시간으로 저장되고 있습니다.')">SAVE ALL</button>
                 <button class="btn" onclick="resetAll()" style="color:#ff6b6b">RESET</button>
             </nav>
         </header>
@@ -81,8 +83,7 @@
     </div>
 
     <div id="modal" onclick="this.style.display='none'">
-        <div id="modal-container" style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;">
-            </div>
+        <div id="modal-container"></div>
     </div>
 
     <script>
@@ -91,17 +92,15 @@
         const modalContainer = document.getElementById('modal-container');
         let db;
 
-        // 1. 대용량 저장을 위한 IndexedDB 설정
-        const request = indexedDB.open("RyuPortfolioFinal", 2);
+        // 1. IndexedDB 초기화 (안정성 강화)
+        const request = indexedDB.open("RyuPortfolioFinalFix", 1);
         request.onupgradeneeded = e => {
             db = e.target.result;
-            if(!db.objectStoreNames.contains("works")) {
-                db.createObjectStore("works", { keyPath: "id", autoIncrement: true });
-            }
+            db.createObjectStore("works", { keyPath: "id", autoIncrement: true });
         };
         request.onsuccess = e => { db = e.target.result; loadWorks(); };
 
-        // 2. 파일 업로드 및 데이터베이스 저장
+        // 2. 파일 업로드 로직 (즉시 렌더링 방식)
         document.getElementById('up-input').addEventListener('change', async (e) => {
             const files = Array.from(e.target.files);
             for (const file of files) {
@@ -113,39 +112,51 @@
                         title: "Untitled Project"
                     };
                     const tx = db.transaction("works", "readwrite");
-                    tx.objectStore("works").add(newItem);
-                    tx.oncomplete = loadWorks;
+                    const store = tx.objectStore("works");
+                    const addRequest = store.add(newItem);
+                    
+                    addRequest.onsuccess = () => {
+                        // DB 저장 성공 시 메모리 최적화를 위해 비동기로 즉시 그리기
+                        requestAnimationFrame(() => {
+                            renderItem({...newItem, id: addRequest.result});
+                        });
+                    };
                 };
                 reader.readAsDataURL(file);
             }
         });
 
-        // 3. 갤러리 로드 - 이미지 안보임 문제 해결
+        // 3. 개별 아이템 렌더링 (이미지 안 보임 문제 원천 차단)
+        function renderItem(item) {
+            const div = document.createElement('div');
+            div.className = 'item';
+            div.id = `item-${item.id}`;
+            div.innerHTML = `
+                <span class="del-btn" onclick="deleteItem(event, ${item.id})">DELETE</span>
+                <div class="thumb" onclick="openFullView('${item.data}', '${item.type}')">
+                    ${item.type === 'video' ? `<video src="${item.data}" autoplay muted loop playsinline></video>` : `<img src="${item.data}" loading="lazy">`}
+                </div>
+                <div class="item-title">
+                    <h3 contenteditable="true" onblur="updateTitle(${item.id}, this.innerText)">${item.title}</h3>
+                </div>
+            `;
+            gallery.appendChild(div);
+        }
+
+        // 4. 전체 리스트 로드
         function loadWorks() {
             gallery.innerHTML = '';
             const tx = db.transaction("works", "readonly");
             tx.objectStore("works").openCursor().onsuccess = e => {
                 const cursor = e.target.result;
                 if (cursor) {
-                    const item = cursor.value;
-                    const div = document.createElement('div');
-                    div.className = 'item';
-                    div.innerHTML = `
-                        <span class="del-btn" onclick="deleteItem(${item.id})">DELETE</span>
-                        <div class="thumb" onclick="openFullView('${item.data}', '${item.type}')">
-                            ${item.type === 'video' ? `<video src="${item.data}" autoplay muted loop playsinline></video>` : `<img src="${item.data}">`}
-                        </div>
-                        <div class="item-title">
-                            <h3 contenteditable="true" onblur="updateTitle(${item.id}, this.innerText)">${item.title}</h3>
-                        </div>
-                    `;
-                    gallery.appendChild(div);
+                    renderItem(cursor.value);
                     cursor.continue();
                 }
             };
         }
 
-        // 4. 원본 전체화면 보기 - 두번째 요청 해결
+        // 5. 전체화면 보기 (원본 보존)
         function openFullView(data, type) {
             modal.style.display = 'flex';
             modalContainer.innerHTML = type === 'video' 
@@ -153,7 +164,7 @@
                 : `<img id="modal-content" src="${data}">`;
         }
 
-        // 5. 실시간 수정 및 삭제
+        // 6. 실시간 수정 및 삭제
         function updateTitle(id, newTitle) {
             const tx = db.transaction("works", "readwrite");
             const store = tx.objectStore("works");
@@ -164,21 +175,22 @@
             };
         }
 
-        function deleteItem(id) {
-            if(confirm('이 작품을 아카이브에서 삭제할까요?')) {
+        function deleteItem(event, id) {
+            event.stopPropagation(); // 모달 뜨는 거 방지
+            if(confirm('이 작품을 삭제할까요?')) {
                 const tx = db.transaction("works", "readwrite");
                 tx.objectStore("works").delete(id);
-                tx.oncomplete = loadWorks;
+                tx.oncomplete = () => {
+                    document.getElementById(`item-${id}`).remove();
+                };
             }
         }
 
-        function saveArchive() { alert('아카이브가 안전하게 저장되었습니다.'); }
-
         function resetAll() {
-            if(confirm('모든 작품을 삭제하고 초기화할까요?')) {
+            if(confirm('모든 작품을 초기화하시겠습니까?')) {
                 const tx = db.transaction("works", "readwrite");
                 tx.objectStore("works").clear();
-                tx.oncomplete = loadWorks;
+                tx.oncomplete = () => { gallery.innerHTML = ''; };
             }
         }
     </script>
