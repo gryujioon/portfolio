@@ -3,43 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RYU JIYOON | VISUAL ARCHIVE</title>
-    <link rel="stylesheet" href="style.css">
+    <title>RYU JIYOON | AI VISUAL ARCHIVE</title>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Montserrat:wght@100;200;400&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #05060b; --gold: #c5a363; --white: #ffffff; --serif: 'Cormorant Garamond', serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
+        
+        body { 
+            background-color: var(--bg); 
+            color: var(--white); 
+            font-family: 'Montserrat', sans-serif; 
+            overflow-x: hidden; 
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* 🌌 지윤님이 원하신 남색 배경 위로 흐르는 은은한 애니메이션 */
+        body::before {
+            content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 15% 15%, #0d152a 0%, transparent 50%),
+                        radial-gradient(circle at 85% 85%, #1a1f35 0%, transparent 50%);
+            z-index: -1; 
+            animation: auroraMove 12s infinite alternate ease-in-out;
+        }
+        @keyframes auroraMove {
+            0% { opacity: 0.6; transform: scale(1); }
+            100% { opacity: 1; transform: scale(1.1); }
+        }
+
+        .container { padding: 60px 80px; position: relative; z-index: 1; }
+        header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 80px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 30px; }
+        .brand h1 { font-family: var(--serif); font-size: 3.5rem; font-weight: 300; letter-spacing: 5px; text-transform: uppercase; }
+        .tagline { font-size: 0.7rem; letter-spacing: 5px; color: var(--gold); margin-top: 10px; }
+        
+        .top-mail { font-size: 0.8rem; color: var(--gold); text-decoration: none; margin-right: 25px; transition: 0.3s; }
+        .btn { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white; padding: 10px 20px; font-size: 0.65rem; cursor: pointer; margin-left: 10px; transition: 0.4s; }
+        .btn-gold { border-color: var(--gold); color: var(--gold); }
+        .btn:hover { background: white; color: black; }
+
+        #gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); gap: 50px; }
+        .item { position: relative; }
+        .thumb { width: 100%; aspect-ratio: 16/9; background: #000; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); }
+        .thumb img, .thumb video { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; transition: 1s; }
+        .item:hover img, .item:hover video { opacity: 1; transform: scale(1.05); }
+        .item-title { margin-top: 20px; text-align: center; }
+        .item-title h3 { font-family: var(--serif); font-style: italic; color: var(--gold); font-weight: 300; font-size: 1.5rem; opacity: 0.8; }
+
+        footer { margin-top: 150px; text-align: center; padding-bottom: 60px; }
+        .footer-mail { font-family: var(--serif); font-size: 2.5rem; color: white; text-decoration: none; font-style: italic; transition: 0.5s; }
+        .footer-mail:hover { color: var(--gold); letter-spacing: 2px; }
+    </style>
 </head>
 <body>
-    <div class="luxury-bg"></div>
-
-    <div class="app-wrapper">
-        <header class="main-header">
-            <div class="brand-area">
-                <h1 contenteditable="true" spellcheck="false">RYU JIYOON</h1>
-                <p class="tagline" contenteditable="true" spellcheck="false">CINEMATIC VFX & DIRECTION</p>
+    <div class="container">
+        <header>
+            <div class="brand">
+                <h1 contenteditable="true">RYU JIYOON</h1>
+                <p class="tagline">CINEMATIC VFX & DIRECTION</p>
             </div>
-            
-            <nav class="nav-controls">
+            <nav>
                 <a href="mailto:gryu98794@gmail.com" class="top-mail">gryu98794@gmail.com</a>
-                <input type="file" id="bulk-uploader" multiple accept="image/*,video/*" hidden>
-                <button class="btn-lux primary" onclick="document.getElementById('bulk-uploader').click()">+ ADD WORKS</button>
-                <button class="btn-lux" onclick="savePortfolio()">SAVE</button>
-                <button class="btn-lux danger" onclick="clearPortfolio()">RESET</button>
+                <button class="btn btn-gold" onclick="addWork()">+ ADD WORK</button>
+                <button class="btn" onclick="save()">SAVE</button>
+                <button class="btn" onclick="reset()" style="color:#ff6b6b">RESET</button>
             </nav>
         </header>
-
-        <main class="gallery-container">
-            <div id="gallery-grid" class="vfx-masonry">
-                </div>
-        </main>
-
-        <footer class="final-footer">
-            <div class="contact-wrap">
-                <span class="label">INQUIRIES</span>
-                <a href="mailto:gryu98794@gmail.com" class="main-mail">gryu98794@gmail.com</a>
-            </div>
-            <p class="copy">© 2025 RYU JIYOON. ALL RIGHTS RESERVED.</p>
+        <main id="gallery"></main>
+        <footer>
+            <p style="font-size:0.6rem; letter-spacing:5px; color:#c5a363; margin-bottom:20px;">INQUIRIES</p>
+            <a href="mailto:gryu98794@gmail.com" class="footer-mail">gryu98794@gmail.com</a>
         </footer>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        const g = document.getElementById('gallery');
+        function addWork() {
+            const url = prompt("이미지 또는 영상의 '링크 주소'를 입력하세요.");
+            if (url) {
+                const isV = url.includes('.mp4') || url.includes('video');
+                const d = document.createElement('div');
+                d.className = 'item';
+                d.innerHTML = `
+                    <div class="thumb">${isV ? `<video src="${url}" autoplay muted loop></video>` : `<img src="${url}">`}</div>
+                    <div class="item-title"><h3 contenteditable="true">Enter Title</h3></div>
+                    <span style="position:absolute;top:10px;right:10px;cursor:pointer;color:#c5a363;font-size:10px;" onclick="this.parentElement.remove()">[ 삭제 ]</span>
+                `;
+                g.appendChild(d);
+            }
+        }
+        function save() { localStorage.setItem('ryu_stable_v6', g.innerHTML); alert('저장되었습니다.'); }
+        function reset() { if(confirm('전체 삭제?')) { g.innerHTML=''; localStorage.removeItem('ryu_stable_v6'); } }
+        window.onload = () => { const s = localStorage.getItem('ryu_stable_v6'); if(s) g.innerHTML = s; };
+    </script>
 </body>
 </html>
