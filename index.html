@@ -6,137 +6,175 @@
     <title>RYU JIYOON | AI VISUAL ARCHIVE</title>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Montserrat:wght@100;200;400&display=swap" rel="stylesheet">
     <style>
-        :root { 
-            --bg: #05060b; 
-            --gold: #c5a363; 
-            --white: #ffffff; 
-            --serif: 'Cormorant Garamond', serif; 
-        }
-
+        :root { --bg: #05060b; --gold: #c5a363; --white: #ffffff; --serif: 'Cormorant Garamond', serif; }
         * { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
-        
-        body { 
-            background-color: var(--bg); 
-            color: var(--white); 
-            font-family: 'Montserrat', sans-serif; 
-            overflow-x: hidden; 
-            min-height: 100vh;
-            position: relative;
-        }
+        body { background-color: var(--bg); color: var(--white); font-family: 'Montserrat', sans-serif; overflow-x: hidden; min-height: 100vh; }
 
-        /* ✨ 지윤님이 원하신 은은한 움직이는 그라데이션 배경 */
-        .bg-gradient {
+        /* 고급 애니메이션 배경 */
+        .bg-layer {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: radial-gradient(circle at 15% 15%, #0d152a 0%, transparent 50%),
                         radial-gradient(circle at 85% 85%, #1a1f35 0%, transparent 50%);
-            z-index: -1; 
-            animation: moveGradient 10s infinite alternate ease-in-out;
+            z-index: -1; animation: aurora 12s infinite alternate ease-in-out;
         }
-
-        @keyframes moveGradient {
-            0% { transform: scale(1); opacity: 0.7; }
-            100% { transform: scale(1.15); opacity: 1; }
-        }
+        @keyframes aurora { 0% { opacity: 0.6; transform: scale(1); } 100% { opacity: 1; transform: scale(1.1); } }
 
         .container { padding: 60px 80px; position: relative; z-index: 1; }
-
-        header { 
-            display: flex; justify-content: space-between; align-items: flex-end; 
-            margin-bottom: 80px; border-bottom: 1px solid rgba(255,255,255,0.1); 
-            padding-bottom: 30px; 
-        }
-
+        header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 80px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 30px; }
         .brand h1 { font-family: var(--serif); font-size: 3.5rem; font-weight: 300; letter-spacing: 5px; text-transform: uppercase; }
         .tagline { font-size: 0.7rem; letter-spacing: 5px; color: var(--gold); margin-top: 10px; }
         
-        .nav-area a { font-size: 0.8rem; color: var(--gold); text-decoration: none; margin-right: 30px; }
-        
-        .btn { 
-            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); 
-            color: white; padding: 10px 20px; font-size: 0.65rem; cursor: pointer; 
-            margin-left: 10px; transition: 0.4s; 
-        }
+        .nav-links a { font-size: 0.8rem; color: var(--gold); text-decoration: none; margin-right: 30px; }
+        .btn { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white; padding: 10px 20px; font-size: 0.65rem; cursor: pointer; margin-left: 10px; transition: 0.4s; }
         .btn-gold { border-color: var(--gold); color: var(--gold); }
         .btn:hover { background: white; color: black; }
 
-        /* 갤러리 그리드 */
-        #gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); gap: 50px; }
-        .item { position: relative; }
-        .thumb { width: 100%; aspect-ratio: 16/9; background: #000; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); }
-        .thumb img, .thumb video { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; transition: 1s; }
-        .item:hover img, .item:hover video { opacity: 1; transform: scale(1.05); }
+        /* 그리드 디자인 */
+        #gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 50px; }
+        .item { position: relative; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); padding: 15px; transition: 0.4s; }
+        .item:hover { border-color: var(--gold); }
         
-        .item-title { margin-top: 20px; text-align: center; }
-        .item-title h3 { font-family: var(--serif); font-style: italic; color: var(--gold); font-weight: 300; font-size: 1.5rem; }
+        .thumb { width: 100%; aspect-ratio: 16/10; background: #000; overflow: hidden; cursor: zoom-in; }
+        .thumb img, .thumb video { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: 0.5s; }
+        .item:hover img, .item:hover video { opacity: 1; }
+        
+        .item-title { margin-top: 15px; text-align: center; }
+        .item-title h3 { font-family: var(--serif); color: var(--gold); font-weight: 300; font-size: 1.4rem; font-style: italic; }
+        
+        .controls { position: absolute; top: 10px; right: 10px; display: flex; gap: 5px; z-index: 10; }
+        .del-btn { color: #ff6b6b; font-size: 10px; cursor: pointer; background: rgba(0,0,0,0.5); padding: 4px 8px; border-radius: 3px; }
+
+        /* 원본 보기 모달 */
+        #modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 1000; justify-content: center; align-items: center; cursor: zoom-out; }
+        #modal-content { max-width: 90%; max-height: 90%; box-shadow: 0 0 50px rgba(0,0,0,1); }
 
         footer { margin-top: 150px; text-align: center; padding-bottom: 60px; }
-        .footer-mail { font-family: var(--serif); font-size: 2.5rem; color: white; text-decoration: none; font-style: italic; transition: 0.5s; }
-        .footer-mail:hover { color: var(--gold); letter-spacing: 2px; }
+        .footer-mail { font-family: var(--serif); font-size: 2.5rem; color: white; text-decoration: none; font-style: italic; }
     </style>
 </head>
 <body>
-    <div class="bg-gradient"></div>
+    <div class="bg-layer"></div>
     <div class="container">
         <header>
             <div class="brand">
                 <h1 contenteditable="true">RYU JIYOON</h1>
                 <p class="tagline">CINEMATIC VFX & DIRECTION</p>
             </div>
-            <div class="nav-area">
+            <nav class="nav-links">
                 <a href="mailto:gryu98794@gmail.com">gryu98794@gmail.com</a>
-                <input type="file" id="file-input" multiple hidden accept="image/*,video/*">
-                <button class="btn btn-gold" onclick="document.getElementById('file-input').click()">+ ADD WORKS</button>
-                <button class="btn" onclick="saveArchive()">SAVE</button>
-                <button class="btn" onclick="clearArchive()" style="color:#ff6b6b">RESET</button>
-            </div>
+                <input type="file" id="up-input" multiple hidden accept="image/*,video/*">
+                <button class="btn btn-gold" onclick="document.getElementById('up-input').click()">+ ADD WORKS</button>
+                <button class="btn" onclick="saveAll()">SAVE ALL</button>
+                <button class="btn" onclick="resetDB()" style="color:#ff6b6b">RESET</button>
+            </nav>
         </header>
 
         <main id="gallery"></main>
 
         <footer>
-            <p style="font-size:0.6rem; letter-spacing:5px; color:#c5a363; margin-bottom:20px;">INQUIRIES</p>
             <a href="mailto:gryu98794@gmail.com" class="footer-mail">gryu98794@gmail.com</a>
+            <p style="font-size:0.6rem; color:rgba(255,255,255,0.2); margin-top:20px;">© 2025 RYU JIYOON. ALL RIGHTS RESERVED.</p>
         </footer>
+    </div>
+
+    <div id="modal" onclick="this.style.display='none'">
+        <div id="modal-content"></div>
     </div>
 
     <script>
         const gallery = document.getElementById('gallery');
-        
-        document.getElementById('file-input').addEventListener('change', (e) => {
-            Array.from(e.target.files).forEach(file => {
+        const modal = document.getElementById('modal');
+        const modalContent = document.getElementById('modal-content');
+        let db;
+
+        // 1. 대용량 저장을 위한 데이터베이스 설정
+        const request = indexedDB.open("RyuPortfolioDB", 1);
+        request.onupgradeneeded = e => {
+            db = e.target.result;
+            db.createObjectStore("works", { keyPath: "id", autoIncrement: true });
+        };
+        request.onsuccess = e => { db = e.target.result; loadWorks(); };
+
+        // 2. 파일 업로드 및 데이터베이스 저장
+        document.getElementById('up-input').addEventListener('change', async (e) => {
+            const files = Array.from(e.target.files);
+            for (const file of files) {
                 const reader = new FileReader();
-                reader.onload = (event) => {
-                    const dataUrl = event.target.result;
-                    const isVideo = file.type.startsWith('video');
+                reader.onload = (ev) => {
+                    const newItem = {
+                        data: ev.target.result,
+                        type: file.type.startsWith('video') ? 'video' : 'img',
+                        title: "New Project"
+                    };
+                    const tx = db.transaction("works", "readwrite");
+                    tx.objectStore("works").add(newItem);
+                    tx.oncomplete = loadWorks;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // 3. 화면 그리기 및 원본 보기 기능
+        function loadWorks() {
+            gallery.innerHTML = '';
+            const tx = db.transaction("works", "readonly");
+            tx.objectStore("works").openCursor().onsuccess = e => {
+                const cursor = e.target.result;
+                if (cursor) {
+                    const item = cursor.value;
                     const div = document.createElement('div');
                     div.className = 'item';
                     div.innerHTML = `
-                        <div class="thumb">${isVideo ? `<video src="${dataUrl}" autoplay muted loop></video>` : `<img src="${dataUrl}">`}</div>
-                        <div class="item-title"><h3 contenteditable="true">Enter Title</h3></div>
-                        <span style="position:absolute;top:10px;right:10px;cursor:pointer;color:#c5a363;font-size:10px;z-index:10;" onclick="this.parentElement.remove()">[ DELETE ]</span>
+                        <div class="controls"><span class="del-btn" onclick="deleteItem(${item.id})">DELETE</span></div>
+                        <div class="thumb" onclick="openModal('${item.data}', '${item.type}')">
+                            ${item.type === 'video' ? `<video src="${item.data}" autoplay muted loop></video>` : `<img src="${item.data}">`}
+                        </div>
+                        <div class="item-title">
+                            <h3 contenteditable="true" onblur="updateTitle(${item.id}, this.innerText)">${item.title}</h3>
+                        </div>
                     `;
                     gallery.appendChild(div);
-                };
-                reader.readAsDataURL(file);
-            });
-        });
-
-        function saveArchive() {
-            localStorage.setItem('ryu_vfx_final_perfect', gallery.innerHTML);
-            alert('아카이브가 안전하게 저장되었습니다. 이제 새로고침해도 이미지가 유지됩니다!');
+                    cursor.continue();
+                }
+            };
         }
 
-        function clearArchive() {
-            if(confirm('전체 데이터를 삭제하시겠습니까?')) {
-                gallery.innerHTML = '';
-                localStorage.removeItem('ryu_vfx_final_perfect');
+        // 4. 모달 원본 보기 기능
+        function openModal(data, type) {
+            modal.style.display = 'flex';
+            modalContent.innerHTML = type === 'video' 
+                ? `<video src="${data}" controls autoplay style="width:100%;"></video>` 
+                : `<img src="${data}" style="width:100%;">`;
+        }
+
+        // 5. 수정 및 삭제 기능
+        function updateTitle(id, newTitle) {
+            const tx = db.transaction("works", "readwrite");
+            const store = tx.objectStore("works");
+            store.get(id).onsuccess = e => {
+                const data = e.target.result;
+                data.title = newTitle;
+                store.put(data);
+            };
+        }
+
+        function deleteItem(id) {
+            if(confirm('이 파일을 삭제하시겠습니까?')) {
+                const tx = db.transaction("works", "readwrite");
+                tx.objectStore("works").delete(id);
+                tx.oncomplete = loadWorks;
             }
         }
 
-        window.onload = () => {
-            const saved = localStorage.getItem('ryu_vfx_final_perfect');
-            if(saved) gallery.innerHTML = saved;
-        };
+        function saveAll() { alert('모든 변경사항이 데이터베이스에 안전하게 저장되었습니다.'); }
+
+        function resetDB() {
+            if(confirm('모든 데이터를 초기화하시겠습니까?')) {
+                const tx = db.transaction("works", "readwrite");
+                tx.objectStore("works").clear();
+                tx.oncomplete = loadWorks;
+            }
+        }
     </script>
 </body>
 </html>
